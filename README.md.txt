@@ -1,1 +1,0 @@
-This repository helps to create API GW with given open api specs, creates a nodejs lambda that exposes swagger-ui of create API-GW through an ALB
