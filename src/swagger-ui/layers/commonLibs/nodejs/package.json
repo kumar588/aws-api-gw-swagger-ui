@@ -1,0 +1,33 @@
+{
+  "name": "@dip/apigw-swagger-ui",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest --coverage --passWithNoTests",
+    "clean": "rimraf out",
+    "build": "webpack",
+    "lint": "eslint ./src",
+    "lint-fix": "eslint --fix ./src"
+  },
+  "author": "Standard Bank DIP Team",
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-api-gateway": "^3.580.0",
+    "express": "^4.19.2",
+    "serverless-http": "^2.6.1",
+    "swagger-ui-express": "^4.1.6",
+    "compression": "^1.7.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
+    "aws-sdk-mock": "^5.9.0",
+    "babel-jest": "^29.7.0",
+    "babel-loader": "^9.1.3",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}

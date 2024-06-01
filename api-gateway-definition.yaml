@@ -1,0 +1,121 @@
+swagger: "2.0"
+info:
+  version: "1.0"
+  title: "serverless-swagger-ui"
+schemes:
+  - "https"
+paths:
+  /orders:
+    get:
+      produces:
+        - "application/json"
+      parameters:
+        - name: "orderDate"
+          in: "query"
+          required: false
+          type: "string"
+        - name: "userid"
+          in: "query"
+          required: false
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ordersResponse"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:ap-south-1:lambda:path/2015-03-31/functions/${orders_handler_arn}/invocations"
+        httpMethod: "POST"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 29000
+        type: "aws_proxy"
+  /users:
+    get:
+      produces:
+        - "application/json"
+      parameters:
+        - name: "orderDate"
+          in: "query"
+          required: false
+          type: "string"
+        - name: "userid"
+          in: "query"
+          required: false
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/ordersResponse"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:ap-south-1:lambda:path/2015-03-31/functions/${users_handler_arn}/invocations"
+        httpMethod: "POST"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 29000
+        type: "aws_proxy"
+#  /v1/api-docs:
+#    get:
+#      responses: { }
+#      x-amazon-apigateway-integration:
+#        uri: "arn:aws:apigateway:ap-south-1:lambda:path/2015-03-31/functions/${swagger_ui_handler_arn}/invocations"
+#        httpMethod: "POST"
+#        passthroughBehavior: "when_no_match"
+#        timeoutInMillis: 29000
+#        type: "aws_proxy"
+  /core/{proxy+}:
+    get:
+      parameters:
+        - name: "proxy"
+          in: "path"
+          required: true
+          type: "string"
+      responses: { }
+      x-amazon-apigateway-integration:
+        uri: "http://example-alb-1899193636.ap-south-1.elb.amazonaws.com/core/v1/api-docs"
+        httpMethod: "GET"
+        passthroughBehavior: "when_no_match"
+        timeoutInMillis: 29000
+        type: "http_proxy"
+        requestParameters:
+          integration.request.path.proxy: method.request.path.proxy
+definitions:
+  ordersDataObject:
+    type: "object"
+    properties:
+      user:
+        type: "string"
+      shippingAddress:
+        type: "string"
+      invoiceAddress:
+        type: "string"
+      orderDate:
+        type: "string"
+        format: "date"
+    title: "Orders Data Object"
+  ordersQueryParameters:
+    type: "object"
+    properties:
+      userid:
+        type: "string"
+      orderDate:
+        type: "string"
+        format: "date"
+    title: "Orders Query Parameters"
+  ordersResponse:
+    type: "object"
+    properties:
+      orders:
+        type: "array"
+        items:
+          $ref: "#/definitions/ordersResponseObject"
+      queryParameters:
+        $ref: "#/definitions/ordersQueryParameters"
+    title: "Orders Response"
+  ordersResponseObject:
+    type: "object"
+    properties:
+      orderId:
+        type: "number"
+      data:
+        $ref: "#/definitions/ordersDataObject"
+    title: "Orders Response Object"
